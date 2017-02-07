@@ -6,11 +6,14 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BoxDrawingView extends View {
-
-	private static final String TAG ="BoxDrawingView";
+	private static final String TAG = "BoxDrawingView";
+	private Box mCurrentBox;
+	private List<Box> mBoxen = new ArrayList<>();
 
 	public BoxDrawingView(Context context) {
 		this(context, null);
@@ -27,20 +30,26 @@ public class BoxDrawingView extends View {
 		switch (event.getAction()) {
 			case MotionEvent.ACTION_DOWN:
 				action = "ACTION_DOWN";
+				mCurrentBox = new Box(current);
+				mBoxen.add(mCurrentBox);
 				break;
 			case MotionEvent.ACTION_MOVE:
 				action = "ACTION_MOVE";
+				if (mCurrentBox != null) {
+					mCurrentBox.setCurrent(current);
+					invalidate();
+				}
 				break;
 			case MotionEvent.ACTION_UP:
 				action = "ACTION_UP";
+				mCurrentBox = null;
 				break;
 			case MotionEvent.ACTION_CANCEL:
 				action = "ACTION_CANCEL";
+				mCurrentBox = null;
 				break;
 		}
-		String log = action + " at x= " + current.x + ", y=" + current.y;
-		Toast.makeText(getContext(), log, Toast.LENGTH_SHORT).show();
-		Log.i(TAG, log);
+		Log.i(TAG, action + " at x= " + current.x + ", y=" + current.y);
 		return true;
 	}
 }
