@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 public class BoxDrawingView extends View {
 
@@ -37,7 +38,9 @@ public class BoxDrawingView extends View {
 				action = "ACTION_CANCEL";
 				break;
 		}
-		Log.i(TAG, action + " at x= " + current.x + ", y=" + current.y);
+		String log = action + " at x= " + current.x + ", y=" + current.y;
+		Toast.makeText(getContext(), log, Toast.LENGTH_SHORT).show();
+		Log.i(TAG, log);
 		return true;
 	}
 }
